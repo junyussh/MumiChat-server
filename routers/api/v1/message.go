@@ -13,6 +13,7 @@ import (
 
 // Message is the struct of message
 type Message struct {
+	ID string `json:"id"`
 	Sender    string `json:"sender"`
 	Recipient string `json:"recipient"`
 	Content   string `json:"content"`
