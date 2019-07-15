@@ -3,6 +3,7 @@ package user_service
 import (
 	"MumiChat/models"
 )
+
 // User struct is full table of user
 type User struct {
 	UserID string 

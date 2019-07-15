@@ -5,11 +5,12 @@ import (
     "github.com/gorilla/websocket"
     // "github.com/google/uuid"
     "MumiChat/pkg/setting"
+    "MumiChat/middleware"
     // "MumiChat/pkg/e"
     "net/http"
     "encoding/json"
     "log"
-    "fmt"
+    // "fmt"
 )
 type Packet struct {
     Type string 
@@ -32,7 +33,7 @@ func Routes(conn *websocket.Conn, p []byte) {
     if(packet.Type == "action") {
         Action(conn, packet.Action, packet.Data)
     } else if(packet.Type == "message") {
-        fmt.Println(packet.Type)
+        middleware.CheckIsLogin(conn, packet.Data)
     }
 }
 func wsReader(conn *websocket.Conn) {

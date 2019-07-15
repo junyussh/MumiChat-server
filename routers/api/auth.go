@@ -4,6 +4,7 @@ import (
 	// "MumiChat/models"
 	"MumiChat/pkg/app"
 	"MumiChat/pkg/e"
+	"MumiChat/routers/api/v1"
 	"MumiChat/service/auth_service"
 	"MumiChat/service/user_service"
 	"fmt"
@@ -58,15 +59,19 @@ func GetAuth(conn *websocket.Conn, data map[string]string) {
 			p, _ := user_service.FindUserByEmail()
 			var user User
 			_ = json.Unmarshal(p, &user)
-			fmt.Println(user.UserID)
+			// fmt.Println(user.UserID)
 			client := e.Client{
 				ID:         user.UserID,
+				Email: data["email"],
 				ErrorCount: 0,
 				Socket:     conn,
 				Send:       make(chan []byte),
 			}
 			e.Clients[&client] = true
-			e.Managers[conn] = &client
+			e.Managers[user.UserID] = &client
+
+			go v1.WriteMessage(&client)
+
 			return
 		}
 

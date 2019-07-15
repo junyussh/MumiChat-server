@@ -7,6 +7,18 @@ import (
 	"MumiChat/pkg/e"
 )
 
+type User struct {
+	UserID string 
+	Username string 
+	Email string
+	Password string
+	FirstName string 
+	LastName string
+	ProfileImage string
+	Key string
+	IsLogin bool
+}
+
 // AddUserForm is a form of register
 type AddUserForm struct {
 	Email string
