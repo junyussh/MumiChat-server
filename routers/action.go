@@ -18,6 +18,8 @@ func Action(conn *websocket.Conn, action string, data map[string]string)  {
 	case "register":
 		v1.AddUser(conn, data)
 		break
+	case "query":
+		v1.FindUser(conn, data)
 	case "delete":
 		v1.DeleteUser(conn, data)
 		break

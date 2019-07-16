@@ -8,15 +8,15 @@ import (
 )
 
 type User struct {
-	UserID string 
-	Username string 
-	Email string
-	Password string
-	FirstName string 
-	LastName string
-	ProfileImage string
-	Key string
-	IsLogin bool
+	UserID string `json:"id"`
+	Username string `json:"username"`
+	Email string `json:"email"`
+	Password string `json:"password"`
+	FirstName string  `json:"firstName"`
+	LastName string `json:"lastName"`
+	ProfileImage string `json:"profileImage"`
+	Key string `json:"key"`
+	IsLogin bool `json:"isLogin"`
 }
 
 // AddUserForm is a form of register
@@ -55,4 +55,28 @@ func AddUser(conn *websocket.Conn, data map[string]string)  {
 // DeleteUser will delete a user
 func DeleteUser(conn *websocket.Conn, data map[string]string)  {
 	
+}
+
+func FindUser(conn *websocket.Conn, data map[string]string)  {
+	var (
+		appW = app.Websocket{C: conn}
+	)
+
+	user_service := user_service.User{
+		Email: data["email"],
+		Username: data["username"],
+		UserID: data["id"],
+		FirstName: data["firstName"],
+		LastName: data["lastName"],
+	}
+
+	p, err := user_service.FindUser()
+	if err != nil {
+		appW.SocketResponse(e.ERROR_FIND_USER_FAILED, err)
+		return
+	}
+
+	appW.SocketResponse(e.SUCCESS, p)
+
+	return
 }

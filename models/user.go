@@ -6,21 +6,20 @@ import (
 	"strings"
 	"math/big"
 	"github.com/jinzhu/gorm"
-	// "fmt"
 	"encoding/json"
 )
 
 // User struct is full table of user
 type User struct {
-	UserID string 
-	Username string 
-	Email string
-	Password string
-	FirstName string 
-	LastName string
-	ProfileImage string
-	Key string
-	IsLogin bool
+	UserID string `json:"id"`
+	Username string `json:"username"`
+	Email string `json:"email"`
+	Password string `json:"password"`
+	FirstName string  `json:"firstName"`
+	LastName string `json:"lastName"`
+	ProfileImage string `json:"profileImage"`
+	Key string `json:"key"`
+	IsLogin bool `json:"isLogin"`
 }
 
 // ExistUserByEmail checks if ther has a user with same email
@@ -72,4 +71,23 @@ func FindUserByEmail(email string) ([]byte, error) {
 	// fmt.Println(p)
 	// fmt.Printf("%+v", user)
 	return p, nil
+}
+
+func FindUser(u []byte) (interface{}, error) {
+	var (
+		users []User
+		user User
+	)
+	_ = json.Unmarshal(u, &user)
+	
+	err := db.Where(user).Find(&users).Error
+	if err != nil  && err != gorm.ErrRecordNotFound {
+		return nil, err
+	}
+	for index := 0; index < len(users); index++ {
+		users[index].Password = ""
+	}
+	// p, _ := json.Marshal(users)
+
+	return users, nil
 }

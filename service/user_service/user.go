@@ -1,6 +1,7 @@
 package user_service
 
 import (
+	"encoding/json"
 	"MumiChat/models"
 )
 
@@ -27,4 +28,9 @@ func (u *User) ExistByEmail() (bool, error) {
 
 func (u *User) FindUserByEmail() ([]byte, error) {
 	return models.FindUserByEmail(u.Email)
+}
+
+func (u *User) FindUser() (interface{}, error) {
+	p, _ := json.Marshal(u)
+	return models.FindUser(p)
 }

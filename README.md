@@ -21,6 +21,12 @@ git clone https://github.com/junyussh/MumiChat-server.git
 go get
 ```
 
+最後用 `go build` 產生二進制執行檔。
+
+```bash
+go build
+```
+
 ## 使用(Usage)
 
 ### 設定
@@ -72,12 +78,22 @@ go run main.go
 
 每個請求都有個 `type` 欄，目前有兩種值：`action` 和 `message`，註冊登入屬於 `action`，而訊息則是 `message`。
 
-`action`: 合法值目前只有 `register` 和 `login`，分別代表註冊和登入請求。
+`action`: 要執行的動作。
 
 ```json
 {
     "type": "action",
     "action": "login"
+}
+```
+
+回傳內容結構都有 `code` 和 `msg` 還有 `data` 欄位，`code` 通常是錯誤代碼，`msg` 是錯誤訊息，`data` 是請求伺服器的回傳資料。
+
+```json
+{
+  "code": 200,
+  "msg": "操作成功",
+  "data": null
 }
 ```
 
@@ -120,7 +136,7 @@ go run main.go
 }
 ```
 
-## 發送訊息
+### 發送訊息
 
 發送訊息前必須先進行登入。
 
@@ -160,6 +176,53 @@ go run main.go
   "recipient": "289559048",
   "content": "hello",
   "created_at": "2019-07-15T09:28:10Z"
+}
+```
+
+### 查詢使用者資訊
+
+- `type`: `action`
+- `action`: `query`
+
+可以自訂條件傳入，目前接受的條件有
+
+- `email`: Email
+- `username`: 使用者名稱
+- `id`: 使用者唯一 ID
+- `firstName`: 名字
+- `lastName`: 姓氏
+
+下面的請求伺服器搜尋 Email 為 `abc@example.com` 且姓名為 Eric Chen 的用戶，由於 Email 算是唯一標識符，僅會回一筆資料。
+
+```json
+{
+  "type": "action",
+  "action": "query",
+  "data": {
+    "email": "abc@example.com",
+    "firstName": "Eric",
+    "lastName": "Chen"
+  }
+}
+```
+
+回傳內容放在 `data` 中，以陣列形式回傳。
+
+```json
+{
+  "code": 200,
+  "msg": "操作成功",
+  "data": [{
+    "id": "289559048",
+    "username": "",
+    "email": "abc@example.com",
+    "password": "",
+    "firstName": "Eric",
+    "lastName": "Chen",
+    "profileImage": "",
+    "key": "",
+    "isLogin": false
+  }]
 }
 ```
 

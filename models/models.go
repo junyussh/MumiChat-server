@@ -22,6 +22,7 @@ func init() {
     var (
         err error
         dbType, dbName, dbPath string
+        dbLogMode bool
     )
 
     sec, err := setting.Cfg.GetSection("database")
@@ -31,7 +32,8 @@ func init() {
 
     dbType = sec.Key("TYPE").String()
 	dbName = sec.Key("NAME").String()
-	dbPath = sec.Key("PATH").String()
+    dbPath = sec.Key("PATH").String()
+    dbLogMode, _ = sec.Key("LOGMODE").Bool()
     // tablePrefix = sec.Key("TABLE_PREFIX").String()
 
 	// sqlite3
@@ -46,7 +48,7 @@ func init() {
     // gorm.DefaultTableNameHandler = func (db *gorm.DB, defaultTableName string) string  {
     //     return tablePrefix + defaultTableName;
     // }
-
+    db.LogMode(dbLogMode)
     db.SingularTable(true)
     db.DB().SetMaxIdleConns(10)
     db.DB().SetMaxOpenConns(100)

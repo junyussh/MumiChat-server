@@ -2,7 +2,7 @@ package e
 
 // MsgFlags maps error code to error message
 var MsgFlags = map[int]string {
-	SUCCESS: "ok",
+	SUCCESS: "操作成功",
 	MESSAGE_SUCCESS: "訊息發送成功",
 	ERROR: "failed",
 	ERROR_AUTH: "使用者名稱或密碼錯誤",
@@ -15,6 +15,8 @@ var MsgFlags = map[int]string {
 	ERROR_UNAUTHORIZED: "請先進行登入",
 	ERROR_USER_NOT_ONLINE: "使用者目前不在線上",
 	ERROR_CONNECTION_CLOSED: "連線已關閉",
+	ERROR_FIND_USER: "找不到使用者",
+	ERROR_FIND_USER_FAILED: "查詢使用者失敗",
 }
 
 // GetMsg get error information based on Code
