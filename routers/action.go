@@ -26,6 +26,6 @@ func Action(conn *websocket.Conn, action string, data map[string]string)  {
 	}
 }
 
-func Logout()  {
-	api.Logout()
+func Logout(conn *websocket.Conn)  {
+	api.Logout(conn)
 }

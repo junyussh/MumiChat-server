@@ -62,7 +62,7 @@ func GetAuth(conn *websocket.Conn, data map[string]string) {
 			// fmt.Println(user.UserID)
 			client := e.Client{
 				ID:         user.UserID,
-				Email: data["email"],
+				Email:		data["email"],
 				ErrorCount: 0,
 				Socket:     conn,
 				Send:       make(chan []byte),
@@ -90,9 +90,14 @@ func GetAuth(conn *websocket.Conn, data map[string]string) {
 func CleanAllStatus()  {
 	auth_service.CleanAllStatus()
 }
-func Logout() {
-	auth_service := auth_service.Auth{
-		Email: e.User,
+func Logout(conn *websocket.Conn) {
+	for client := range e.Clients {
+		if client.Socket == conn {
+			auth_service := auth_service.Auth{
+				Email: client.Email,
+			}
+			auth_service.ChangeLoginStatus()
+			return
+		}
 	}
-	auth_service.ChangeLoginStatus()
 }

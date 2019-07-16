@@ -7,15 +7,24 @@
 
 此步驟是為欲自行編譯者提供，如果是使用釋出的二進制執行檔者可跳過此步。
 
-請先將 Golang 執行環境安裝好，安裝方法請參考[官方文檔](https://golang.org/doc/install)，然後將 repo clone 到 `$GOPATH`。
+請先將 Golang 執行環境安裝好，安裝方法請參考[官方文檔](https://golang.org/doc/install)，然後將 repo clone 到 `$GOPATH/src`。
+**注意：資料夾名稱必須為 `MumiChat`，不然依賴套件會出現錯誤，**
 
 ```bash
 git clone https://github.com/junyussh/MumiChat-server.git
 ```
 
-`$GOPATH` 路徑可在終端機輸入 `go env` 獲取 Golang 環境變數。
+`$GOPATH` 路徑可在終端機輸入 `go env` 獲取 Golang 環境變數看見。
 
-然後用 `go get` 安裝依賴套件。
+```bash
+set GOEXE=.exe
+set GOHOSTARCH=amd64
+set GOHOSTOS=windows
+set GOOS=windows
+set GOPATH=C:\Users\Chun Yu\go
+```
+
+然後用 `go get` 安裝依賴套件，在中國因為 [golang.org](https://golang.org) 被牆，會造成無法安裝，解決方法可以參考這篇[文章](https://shockerli.net/post/go-get-golang-org-x-solution/)。
 
 ```bash
 go get

@@ -41,7 +41,7 @@ func wsReader(conn *websocket.Conn) {
     // read in a message
         _, p, err := conn.ReadMessage()
         if err != nil {
-            Logout()
+            Logout(conn)
             log.Println(err)
             return
         }

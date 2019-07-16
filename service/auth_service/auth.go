@@ -5,6 +5,7 @@ import (
 )
 
 type Auth struct {
+	UserID string
 	Email string
 	Password string
 	IsLogin bool
