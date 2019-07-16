@@ -55,7 +55,7 @@ func GetAuth(conn *websocket.Conn, data map[string]string) {
 		if isNotLogin != false {
 			auth_service.ChangeLoginStatus()
 			appW.SocketResponse(e.SUCCESS, nil)
-			e.User = data["email"]
+
 			p, _ := user_service.FindUserByEmail()
 			var user User
 			_ = json.Unmarshal(p, &user)

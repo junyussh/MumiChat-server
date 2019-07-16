@@ -8,6 +8,7 @@
 此步驟是為欲自行編譯者提供，如果是使用釋出的二進制執行檔者可跳過此步。
 
 請先將 Golang 執行環境安裝好，安裝方法請參考[官方文檔](https://golang.org/doc/install)，然後將 repo clone 到 `$GOPATH/src`。
+
 **注意：資料夾名稱必須為 `MumiChat`，不然依賴套件會出現錯誤，**
 
 ```bash
@@ -58,6 +59,7 @@ HTTP_PORT = 8080
 TYPE = sqlite3
 NAME = chat
 PATH = ./
+LOGMODE = false
 TABLE_PREFIX = chat
 ```
 

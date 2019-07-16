@@ -6,7 +6,6 @@ import (
 
 // store current user
 var ( 
-	User string
 	ErrorCount = 0
 	Clients = make(map[*Client]bool)
 	Managers = make(map[string]*Client)

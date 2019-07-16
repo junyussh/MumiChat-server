@@ -63,13 +63,13 @@ func DeleteUser()  {
 
 func FindUserByEmail(email string) ([]byte, error) {
 	var user User
+	
 	err := db.Where("email = ?", email).First(&user).Error
 	if err != nil {
 		return nil, err
 	}
 	p, _ := json.Marshal(user)
-	// fmt.Println(p)
-	// fmt.Printf("%+v", user)
+
 	return p, nil
 }
 
@@ -87,7 +87,6 @@ func FindUser(u []byte) (interface{}, error) {
 	for index := 0; index < len(users); index++ {
 		users[index].Password = ""
 	}
-	// p, _ := json.Marshal(users)
 
 	return users, nil
 }
