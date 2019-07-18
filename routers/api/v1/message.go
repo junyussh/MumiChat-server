@@ -22,6 +22,15 @@ type Message struct {
 
 func SendMessage(client *e.Client, data map[string]string) {
 	var appW = app.Websocket{C: client.Socket}
+	if(data["type"] == "broadcast") {
+		message, _ := json.Marshal(&Message{
+			Sender: client.ID,
+			Content: data["content"],
+			CreatedAt: time.Now().UTC().Format(time.RFC3339),
+		})
+		e.Broadcast <- message
+		return
+	}
 	// user isn't online
 	if _, ok := e.Managers[data["recipient"]]; !ok {
 		appW.SocketResponse(e.ERROR_USER_NOT_ONLINE, nil)
@@ -59,6 +68,24 @@ func WriteMessage(c *e.Client)  {
             }
 
             appW.MessageResponse(message)
-        }
+		case message, _ := <- e.Broadcast:
+			for _, client := range e.Managers {
+				fmt.Println("message: "+string(message))
+				fmt.Println("email: "+client.Email)
+				client.Send <- message
+			}
+		}
     }
+}
+func WriteBroadcast()  {
+	for {
+		select {
+		case message, _ := <- e.Broadcast:
+			for _, client := range e.Managers {
+				fmt.Println("message: "+string(message))
+				fmt.Println("email: "+client.Email)
+				client.Send <- message
+			}
+		}
+	}
 }

@@ -49,7 +49,7 @@ func AddUser(conn *websocket.Conn, data map[string]string)  {
 		appW.SocketResponse(e.ERROR_ADD_USER_FAILED, nil)
 		return
 	}
-	appW.SocketResponse(e.SUCCESS, nil)
+	appW.SocketResponse(e.REGISTER_SUCCESS, nil)
 }
 
 // DeleteUser will delete a user

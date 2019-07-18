@@ -41,7 +41,7 @@ go build
 
 ### 設定
 
-`conf/app.ini` 目前可以設定 gin 的輸出模式，資料庫儲存位置、名稱、還有伺服器監聽的端口號，主要就這幾個選項。
+要在 MumiChat 目錄建立一個 conf 目錄，並新建一個 `app.ini`，`conf/app.ini` 目前可以設定 gin 的輸出模式，資料庫儲存位置、名稱、還有伺服器監聽的端口號，主要就這幾個選項。
 
 ```ini
 # possible values : release, debug

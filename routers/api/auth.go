@@ -32,6 +32,10 @@ func GetAuth(conn *websocket.Conn, data map[string]string) {
 	var (
 		appW = app.Websocket{C: conn}
 	)
+	if data["email"] == "" || data["password"] == "" {
+		appW.SocketResponse(e.ERROR_AUTH, nil)
+		return
+	}
 	auth_service := auth_service.Auth{
 		Email:    data["email"],
 		Password: data["password"],
@@ -54,7 +58,7 @@ func GetAuth(conn *websocket.Conn, data map[string]string) {
 		// user not login
 		if isNotLogin != false {
 			auth_service.ChangeLoginStatus()
-			appW.SocketResponse(e.SUCCESS, nil)
+			appW.SocketResponse(e.LOGIN_SUCCESS, nil)
 
 			p, _ := user_service.FindUserByEmail()
 			var user User
@@ -71,6 +75,7 @@ func GetAuth(conn *websocket.Conn, data map[string]string) {
 			e.Managers[user.UserID] = &client
 
 			go v1.WriteMessage(&client)
+			// go v1.WriteBroadcast()
 
 			return
 		}
@@ -79,11 +84,11 @@ func GetAuth(conn *websocket.Conn, data map[string]string) {
 		appW.SocketResponse(e.ERROR_MULTIPLE_LOGIN, nil)
 		return
 	} else {
-		e.ErrorCount++
+		// e.ErrorCount++
 		appW.SocketResponse(e.ERROR_AUTH, nil)
-		if e.ErrorCount >= 3 {
-			conn.Close()
-		}
+		// if e.ErrorCount >= 3 {
+		// 	conn.Close()
+		// }
 	}
 }
 
