@@ -9,7 +9,6 @@ var (
 	// ErrorCount = 0
 	Clients = make(map[*Client]bool)
 	Managers = make(map[string]*Client)
-	Broadcast = make(chan []byte)
 )
 
 type Client struct {

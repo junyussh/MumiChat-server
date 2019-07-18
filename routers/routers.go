@@ -10,7 +10,7 @@ import (
     "net/http"
     "encoding/json"
     "log"
-    "fmt"
+    // "fmt"
 )
 type Packet struct {
     Type string 
@@ -32,8 +32,10 @@ func Routes(conn *websocket.Conn, p []byte) {
     }
     if(packet.Type == "action") {
         Action(conn, packet.Action, packet.Data)
-    } else if(packet.Type == "message" || packet.Type == "broadcast") {
-        middleware.CheckIsLogin(conn, packet.Data)
+    } else if(packet.Type == "message") {
+        middleware.CheckIsLogin(conn, packet.Data, "message")
+    } else if(packet.Type == "broadcast") {
+        middleware.CheckIsLogin(conn, packet.Data, "broadcast")
     }
 }
 func wsReader(conn *websocket.Conn) {
@@ -46,7 +48,7 @@ func wsReader(conn *websocket.Conn) {
             return
         }
     // print out that message for clarity
-        fmt.Println(string(p))
+        // fmt.Println(string(p))
         Routes(conn, p)
         // if err := conn.WriteMessage(messageType, p); err != nil {
         //     log.Println(err)

@@ -9,11 +9,17 @@ import (
 
 )
 
-func CheckIsLogin(conn *websocket.Conn, data map[string]string)  {
+func CheckIsLogin(conn *websocket.Conn, data map[string]string, msgType string)  {
 	for client := range e.Clients {
 		if client.Socket == conn {
-			v1.SendMessage(client, data)
-			return
+			if msgType == "message" {
+				v1.SendMessage(client, data)
+				return
+			} else
+			{
+				v1.SendBroadcast(client, data)
+				return
+			}
 		}
 	}
 

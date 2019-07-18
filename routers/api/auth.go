@@ -13,16 +13,17 @@ import (
 )
 
 type User struct {
-	UserID       string
-	Username     string
-	Email        string
-	Password     string
-	FirstName    string
-	LastName     string
-	ProfileImage string
-	Key          string
-	IsLogin      bool
+	UserID string `json:"id"`
+	Username string `json:"username"`
+	Email string `json:"email"`
+	Password string `json:"password"`
+	FirstName string  `json:"firstName"`
+	LastName string `json:"lastName"`
+	ProfileImage string `json:"profileImage"`
+	Key string `json:"key"`
+	IsLogin bool `json:"isLogin"`
 }
+
 type Auth struct {
 	Email    string
 	Password string
@@ -73,7 +74,7 @@ func GetAuth(conn *websocket.Conn, data map[string]string) {
 			}
 			e.Clients[&client] = true
 			e.Managers[user.UserID] = &client
-
+			// fmt.Printf("email: %s, id: %s\n", e.Managers[user.UserID].Email, e.Managers[user.UserID].ID)
 			go v1.WriteMessage(&client)
 			// go v1.WriteBroadcast()
 
